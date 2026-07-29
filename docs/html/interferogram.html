@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Interferogram &#8212; OptMetTools  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="surface.html" />
+    <link rel="prev" title="Welcome to MyPackage’s documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="interferogram">
+<h1>Interferogram<a class="headerlink" href="#interferogram" title="Link to this heading">¶</a></h1>
+<p>This module contains methods relavent to simulation and processing WLI and PSI interferograms.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.process.Process">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">OptMetTools.Interferogram.process.</span></span><span class="sig-name descname"><span class="pre">Process</span></span><a class="headerlink" href="#OptMetTools.Interferogram.process.Process" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Define several algorithms for processing interferograms.</p>
+<p>Provides vectorized implementation, allowing for processing
+of many unrelated interferogram stacks.</p>
+<dl class="simple">
+<dt>References:</dt><dd><ol class="arabic simple">
+<li><p><a class="reference external" href="https://doi.org/10.1364/OE.27.037634">https://doi.org/10.1364/OE.27.037634</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.optlaseng.2021.106768">https://doi.org/10.1016/j.optlaseng.2021.106768</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1088/2040-8978/17/2/025704">https://doi.org/10.1088/2040-8978/17/2/025704</a></p></li>
+<li><p><a class="reference external" href="http://doi.org/10.1080/09500349514550341">http://doi.org/10.1080/09500349514550341</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1364/OL.29.001671">https://doi.org/10.1364/OL.29.001671</a></p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1016/j.optlaseng.2005.11.003">https://doi.org/10.1016/j.optlaseng.2005.11.003</a></p></li>
+</ol>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.process.Process.AIA">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">AIA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OptMetTools.Interferogram.process.Process.AIA" title="Link to this definition">¶</a></dt>
+<dd><p>Perform the iterative AIA algorithm (for PSI) to uncover the phase and
+phase-steps.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>I<span class="classifier">np.array(T,Nx,Ny,M)</span></dt><dd><p>T unrelated stacks of M interferograms</p>
+</dd>
+<dt>delta<span class="classifier">np.array(T,M)</span></dt><dd><p>T unrelated sets of initial guesses for delta.</p>
+</dd>
+<dt>epsilon<span class="classifier">float</span></dt><dd><p>Convergence parameter representing the maximum incremental
+change between delta values.</p>
+</dd>
+<dt>img_mask<span class="classifier">np.array(T,Nx,Ny)</span></dt><dd><p>Defines a mask of valid pixels, so as to allow differently sized images to be
+processed together. Intensity array I, should be zero-padded where pixels
+are invalid. Value of None implies all pixels are valid. Default None.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>phi<span class="classifier">np.array(T,Nx,Ny)</span></dt><dd><p>Final calculated phase map.</p>
+</dd>
+<dt>delta<span class="classifier">np.array(T,M)</span></dt><dd><p>Final phase-shift mapping.</p>
+</dd>
+<dt>n_iter<span class="classifier">np.array(T)</span></dt><dd><p>Number of iterations that each batch/test (t in 1,2,…,T) took.</p>
+</dd>
+</dl>
+</dd>
+<dt>Citations:</dt><dd><p>[5]
+[6]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.process.Process.FDA">
+<span class="sig-name descname"><span class="pre">FDA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_wavenumbers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OptMetTools.Interferogram.process.Process.FDA" title="Link to this definition">¶</a></dt>
+<dd><p>Performs Frequency Domain Analysis on the provided interferogram stack, I
+with step_size delta between adjacent scans.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>I<span class="classifier">np.array(Nx,Ny,M)</span></dt><dd><p>Stack of M interferograms.</p>
+</dd>
+<dt>step_size<span class="classifier">float</span></dt><dd><p>The step size between adjacent scans, in microns.</p>
+</dd>
+<dt>lambda0<span class="classifier">float</span></dt><dd><p>Central wavelength of the light source, in microns.</p>
+</dd>
+<dt>n<span class="classifier">float (default 1.0)</span></dt><dd><p>index of refraction of sampled material</p>
+</dd>
+<dt>ng<span class="classifier">float (default = 1.0)</span></dt><dd><p>group velocity index</p>
+</dd>
+<dt>n_wavenumbers<span class="classifier">int (default = 3)</span></dt><dd><p>The number of seperate wavenumbers that are used to
+evaluate the initial height estimate G0.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>surface<span class="classifier">np.array(Nx,Ny)</span></dt><dd><p>Phase-corrected surface height.</p>
+</dd>
+<dt>z_est<span class="classifier">np.array(Nx,Ny)</span></dt><dd><p>Initial surface height estimate, based off
+of the group-velocity index G0.</p>
+</dd>
+</dl>
+</dd>
+<dt>Citations:</dt><dd><p>[4]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.process.Process.MAX_ITER">
+<span class="sig-name descname"><span class="pre">MAX_ITER</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">250</span></span><a class="headerlink" href="#OptMetTools.Interferogram.process.Process.MAX_ITER" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.process.Process.Window">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OptMetTools.Interferogram.process.Process.Window" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the interferogram windowed into seperate groups, I1, I2, …, IN</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>I<span class="classifier">np.array(…, M)</span></dt><dd><p>Interfergram where the last parameter is the scan index</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>Ik, k=1,2,…,N np.array(…,M-N+1)</dt><dd><p>Shifted intensity maps.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.generate.Generate">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">OptMetTools.Interferogram.generate.</span></span><span class="sig-name descname"><span class="pre">Generate</span></span><a class="headerlink" href="#OptMetTools.Interferogram.generate.Generate" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Interferogram.Generate module has methods useful for generating interferograms</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.generate.Generate.PSI">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">PSI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanning_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OptMetTools.Interferogram.generate.Generate.PSI" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a PSI interferogram stack. Input height is in Radians.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>Z<span class="classifier">np.array(Nx,Ny)</span></dt><dd><p>Input surface.</p>
+</dd>
+<dt>scanning_steps<span class="classifier">np.array(Nz)</span></dt><dd><p>Array representing the height (or phase) of each scan.</p>
+</dd>
+<dt>A<span class="classifier">float</span></dt><dd><p>Background illumnination constant.</p>
+</dd>
+<dt>B<span class="classifier">float</span></dt><dd><p>Modulation contrast constant.</p>
+</dd>
+<dt>Noise<span class="classifier">float in range [0,1]</span></dt><dd><p>The amount of random noise to be added to the interferograms.
+Noise is measured as the variance (sigma) as a fraction over parameter B (Noise = sigma/B).</p>
+</dd>
+<dt>phase_offset<span class="classifier">float</span></dt><dd><p>Initial phase offset (radians).</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>I<span class="classifier">np.array(Nx,Ny,Nz)</span></dt><dd><p>Stack of interferograms</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="OptMetTools.Interferogram.generate.Generate.WLI">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">WLI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scanning_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OptMetTools.Interferogram.generate.Generate.WLI" title="Link to this definition">¶</a></dt>
+<dd><p>Generates a white-light interferogram stack. Input height is in
+objective units (i.e., Micron).</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>Z<span class="classifier">np.array(Nx,Ny)</span></dt><dd><p>Input surface.</p>
+</dd>
+<dt>scanning_steps<span class="classifier">np.array(Nz)</span></dt><dd><p>Array representing the height (or phase) of each scan.</p>
+</dd>
+<dt>lambda0<span class="classifier">float</span></dt><dd><p>Central wavelength of light.</p>
+</dd>
+<dt>Lc<span class="classifier">float</span></dt><dd><p>Coherence length.</p>
+</dd>
+<dt>A<span class="classifier">float</span></dt><dd><p>Background illumnination constant. Default 0.5.</p>
+</dd>
+<dt>B<span class="classifier">float</span></dt><dd><p>Modulation contrast constant. Default 0.5</p>
+</dd>
+<dt>Noise<span class="classifier">float in range [0,1]</span></dt><dd><p>The amount of random noise to be added to the interferograms.
+Noise is measured as the variance (sigma) as a fraction over parameter B (Noise = sigma/B).</p>
+</dd>
+<dt>phase_offset<span class="classifier">float</span></dt><dd><p>Initial phase offset (radians).</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>I<span class="classifier">np.array(Nx,Ny,Nz)</span></dt><dd><p>Stack of interferograms</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">OptMetTools</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Interferogram</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#OptMetTools.Interferogram.process.Process"><code class="docutils literal notranslate"><span class="pre">Process</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#OptMetTools.Interferogram.generate.Generate"><code class="docutils literal notranslate"><span class="pre">Generate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="surface.html">API reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to MyPackage’s documentation</a></li>
+      <li>Next: <a href="surface.html" title="next chapter">API reference</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Andrew Humphreys.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/interferogram.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

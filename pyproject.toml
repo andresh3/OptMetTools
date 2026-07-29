@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "OptMetTools"
+version = "0.1.0"
+description = "Package with basic utilities useful for optical metrology simulation and processing."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Andrew Humphreys", email = "ahumphreys@srico.com" }
+]
+dependencies = [
+    "torch>=2.0.0, <3.0.0",
+    "numpy>=2.0.0, <3.0.0",
+]
